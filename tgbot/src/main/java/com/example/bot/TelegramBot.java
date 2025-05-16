@@ -1,24 +1,22 @@
 package com.example.bot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
+import java.util.logging.Handler;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import com.example.Handler.Handlers;
 
 public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        String messageText = update.getMessage().getText();
-        long userId = Long.valueOf(update.getMessage().getChatId());
-
-        SendMessage message = new SendMessage();
-        message.setChatId(userId);
-        message.setText(messageText);
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            System.out.println("uncorrected"+e);
+        System.out.println(update.getMessage().getText());
+        Handlers messageList = new Handlers();
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            messageList.Handle(update);
         }
 
     }

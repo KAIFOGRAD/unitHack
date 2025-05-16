@@ -1,19 +1,16 @@
-package com.example.Handlers;
+package com.example.Handler;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class StartHandler implements IHandle {
+import com.example.bot.Executer;
+
+public class StartHandler extends Executer implements IHandle {
 
     @Override
-    public SendMessage handle(Update update) {
+    public void handle(Update update) {
         String answer = "Вы попали в бота наумен для мероприятий, Добро пожаловать!";
         long userId = Long.valueOf(update.getMessage().getChatId());
-
-        SendMessage message = new SendMessage();
-        message.setChatId(userId);
-        message.setText(answer);
-        return message;
+        sendMessage(answer, userId);
 
     }
 
