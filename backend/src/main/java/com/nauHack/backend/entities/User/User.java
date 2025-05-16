@@ -3,6 +3,8 @@ package com.nauHack.backend.entities.User;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.nauHack.backend.entities.Event;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
