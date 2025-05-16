@@ -18,13 +18,13 @@ public class StartHandler implements IHandle {
     }
 
     @Override
-    public String info() {
+    public String getInfo() {
         String info = "комманда для начала работы с ботом";
         return info;
     }
 
     @Override
-    public String name() {
+    public String getName() {
         String name = "/start";
         return name;
     }
