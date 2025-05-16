@@ -4,6 +4,7 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -12,10 +13,9 @@ import lombok.Setter;
 public class JwtResponse {
     private String token;
     private String type = "Bearer";
-    private String id;
+    private Long id;
     private String username;
     private String email;
-    private String companyId;
     private List<String> roles;
-    
+
 }
