@@ -26,12 +26,12 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody CreateEventDto eventDto ){
+    public ResponseEntity<Event> createEvent(@RequestBody CreateEventDto eventDto) {
         Event createdEvent = eventService.createEvent(eventDto);
         return ResponseEntity.ok(createdEvent);
     }

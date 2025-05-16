@@ -56,11 +56,11 @@ public class User {
     private Set<Event> organizedEvents = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(
-        name = "user_events", 
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "event_id") 
-    )
+    @JoinTable(name = "user_events", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "user_favorite_events", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
+    private Set<Event> favoriteEvents = new HashSet<>();
 
 }

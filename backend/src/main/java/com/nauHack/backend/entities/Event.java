@@ -53,4 +53,7 @@ public class Event {
     @ManyToMany(mappedBy = "events")
     private Set<User> participants = new HashSet<>();
 
+    @ManyToMany(mappedBy = "favoriteEvents")
+    private Set<User> favoritedByUsers = new HashSet<>();
+
 }
