@@ -14,6 +14,5 @@ public abstract class BaseHandler extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             System.out.println("Uncorrected" + e);
         }
-
     }
 }
