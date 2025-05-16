@@ -1,11 +1,19 @@
 package com.nauHack.backend.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.nauHack.backend.entities.User.User;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,11 +40,17 @@ public class Event {
 
     private Date endTime;
 
-    private int numberSeets;
+    private int numberSeats;
 
-    private int maxSeets;
+    private int maxSeats;
 
     private String location;
-    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizer_id")
+    private User organizer;
+
+    @ManyToMany(mappedBy = "events")
+    private Set<User> participants = new HashSet<>();
 
 }
