@@ -1,23 +1,18 @@
-import { useState } from 'react'
-import styles from './App.module.scss'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainPage from './styles/components/Registration/MainPage/MainPage';
+import LoginPage from './styles/components/Registration/LoginPage/LoginPage';
+import RegisterPage from './styles/components/Registration/RegisterPage/RegisterPage';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div className={styles.root}>
-              <div className={styles.container}>
-                <h1 className={styles.title}>Vite + React</h1>
-                <div>
-                  <button className={styles.button} onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                  </button>
-                </div>
-              </div>
-      </div>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

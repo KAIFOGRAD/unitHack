@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background-color: #fdfaf8;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.logoWrapper {
+    margin-bottom: 40px;
+}
+
+.logo {
+    width: 316px;
+    height: auto;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 56px;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 335px;
+}
+
+
+.secondaryButton {
+    background-color: transparent;
+    color: #0A0A0A;
+    border: 2px solid #FF6721;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
