@@ -6,7 +6,7 @@ import java.util.Map;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class Handlers {
-    private final Map<String, IHandle> commands = new LinkedHashMap<>();
+    public static Map<String, IHandle> commands = new LinkedHashMap<>();
 
     public Handlers() {
         registerCommands();
@@ -18,6 +18,8 @@ public class Handlers {
 
     public void Handle(Update update) {
         String command = update.getMessage().getText();
+        int spaceIndex = command.indexOf(" ");
+        command = (spaceIndex == -1) ? command : command.substring(0, spaceIndex);
         commands.get(command).handle(update);
     }
 

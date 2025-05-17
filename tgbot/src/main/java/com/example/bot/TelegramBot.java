@@ -1,9 +1,5 @@
 package com.example.bot;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-
-import java.util.logging.Handler;
-
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
