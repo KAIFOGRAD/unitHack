@@ -14,12 +14,12 @@ public class Handlers {
 
     private void registerCommands() {
         new StartHandler().register(commands);
+        new HelpHandler().register(commands);
     }
 
     public void Handle(Update update) {
         String command = update.getMessage().getText();
-        int spaceIndex = command.indexOf(" ");
-        command = (spaceIndex == -1) ? command : command.substring(0, spaceIndex);
+        command = command.split(" ")[0];
         commands.get(command).handle(update);
     }
 

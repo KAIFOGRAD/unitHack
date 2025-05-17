@@ -13,9 +13,9 @@ public class HelpHandler extends Executer implements IHandle {
         String answer = "";
 
         if (helpTo.equals(this.getName())) {
-            StringBuilder helpMessage = new StringBuilder("Список доступных команд\n");
+            StringBuilder helpMessage = new StringBuilder("🔍Список доступных команд 🔍\n");
             for (IHandle command : Handlers.commands.values()) {
-                helpMessage.append(command.getName());
+                helpMessage.append(command.getName()).append("\n");
             }
             answer = helpMessage.toString();
         } else {
@@ -23,16 +23,15 @@ public class HelpHandler extends Executer implements IHandle {
             helpTo = "/" + helpTo.substring(spaceIndex).trim();
             IHandle commandName = Handlers.commands.get(helpTo);
             if (commandName != null) {
-                answer = commandName.getInfo(); 
+                answer = commandName.getInfo();
                 // sendMessage(commandName.getInfo(), userId);
             } else {
-                answer = "такой комманды нет\n" +
+                answer = "❌ такой комманды нет ❌\n" +
                         "Воспользуйся /help, что бы узнать какие комманды есть";
                 // sendMessage(errorMessage, userId);
             }
-            sendMessage(answer, userId);
         }
-
+        sendMessage(answer, userId);
     }
 
     @Override
