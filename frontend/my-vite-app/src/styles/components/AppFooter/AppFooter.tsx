@@ -6,7 +6,7 @@
     import ProfileIcon from '../../../assets/user.svg';
     
     export default function AppFooter() {
-        const navigate = useNavigate();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('home');
 
     const handleClick = (tab: string) => {
