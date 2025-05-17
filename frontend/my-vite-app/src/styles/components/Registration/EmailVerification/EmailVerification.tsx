@@ -8,7 +8,7 @@ import Back from '../../../../assets/back.svg';
 export default function EmailVerification() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [code, setCode] = useState<string[]>(['', '', '']);
+    const [code, setCode] = useState<string[]>(['', '', '', '']); // 4 поля вместо 3
     const [timer, setTimer] = useState(59);
     const [email, setEmail] = useState('');
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -21,11 +21,40 @@ export default function EmailVerification() {
         }
     }, [location]);
 
+    // Автофокус на первом поле
     useEffect(() => {
-        if (inputRefs.current[0]) {
-            inputRefs.current[0].focus();
-        }
+        inputRefs.current[0]?.focus();
     }, []);
+
+    const handleChange = (index: number, value: string) => {
+        if (/^\d*$/.test(value)) { // Разрешаем только цифры
+            const newCode = [...code];
+            newCode[index] = value;
+            setCode(newCode);
+
+            // Автопереход к следующему полю
+            if (value && index < 3) {
+                inputRefs.current[index + 1]?.focus();
+            }
+        }
+    };
+
+    const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+        if (e.key === 'Backspace' && !code[index] && index > 0) {
+            // Переход к предыдущему полю при Backspace
+            inputRefs.current[index - 1]?.focus();
+        }
+    };
+
+    const handlePaste = (e: React.ClipboardEvent) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+        const newCode = [...code];
+        pasteData.split('').forEach((char, i) => {
+            if (i < 4) newCode[i] = char;
+        });
+        setCode(newCode);
+    };
 
     const handleDigitInput = (digit: string) => {
         const emptyIndex = code.findIndex(val => val === '');
@@ -33,6 +62,9 @@ export default function EmailVerification() {
             const newCode = [...code];
             newCode[emptyIndex] = digit;
             setCode(newCode);
+            if (emptyIndex < 3) {
+                inputRefs.current[emptyIndex + 1]?.focus();
+            }
         }
     };
 
@@ -42,6 +74,9 @@ export default function EmailVerification() {
             const newCode = [...code];
             newCode[lastFilledIndex] = '';
             setCode(newCode);
+            inputRefs.current[lastFilledIndex]?.focus();
+        } else if (code[0] === '') {
+            inputRefs.current[0]?.focus();
         }
     };
 
@@ -56,8 +91,8 @@ export default function EmailVerification() {
 
     const handleResendCode = () => {
         if (timer === 0) {
-            setTimer(20);
-            // воткнуть логику повторной отправки кода
+            setTimer(59);
+            // Логика повторной отправки кода
         }
     };
 
@@ -68,14 +103,14 @@ export default function EmailVerification() {
     };
 
     const handleForgot = () => {
-        navigate('/forgot-password')
-    }
+        navigate('/forgot-password');
+    };
 
     const isCodeComplete = code.every(digit => digit !== '');
 
     return (
         <div className={styles.container}>
-                <div className={styles.header}>
+            <div className={styles.header}>
                 <button onClick={handleForgot} className={styles.back}>
                     <img className={styles.back_img} src={Back} alt="Назад" />
                 </button>
@@ -83,18 +118,45 @@ export default function EmailVerification() {
                     <img src={Star} alt="star" />
                 </div>
             </div>
+            
             <h1 className={styles.title}>Проверьте почту</h1>
             <p className={styles.subtitle}>
-                Мы отправили письмо на <p className={styles.email}>{email}</p>
+                Мы отправили письмо на <span className={styles.email}>{email}</span>
             </p>
 
-            <div className={styles.codeDisplay}>
+            <div className={styles.codeInputs}>
                 {code.map((digit, index) => (
-                    <div key={index} className={styles.digitBox}>
-                        {digit || <span className={styles.placeholder}>•</span>}
-                    </div>
+                    <input
+                        key={index}
+                        ref={(el: HTMLInputElement | null) => {
+                            inputRefs.current[index] = el;
+                        }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(index, e)}
+                        onPaste={handlePaste}
+                        className={styles.codeInput}
+                        autoFocus={index === 0}
+                    />
                 ))}
             </div>
+
+            <PrimaryButton
+                text="Подтвердить"
+                onClick={handleVerification}
+                className={styles.submitButton}
+            />
+
+            <button 
+                className={styles.resendButton} 
+                onClick={handleResendCode}
+                disabled={timer > 0}
+            >
+                Отправить код повторно <span className={styles.timer}>{timer > 0 ? `0:${timer.toString().padStart(2, '0')}` : ''}</span>
+            </button>
 
             <div className={styles.keyboard}>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
@@ -121,19 +183,7 @@ export default function EmailVerification() {
                 </button>
             </div>
 
-            <PrimaryButton
-                text="Подтвердить"
-                onClick={handleVerification}
-                className={styles.submitButton}
-            />
-
-            <button 
-                className={styles.resendButton} 
-                onClick={handleResendCode}
-                disabled={timer > 0}
-            >
-                Отправить код повторно {timer > 0 ? `0:${timer.toString().padStart(2, '0')}` : ''}
-            </button>
+            
         </div>
     );
 }
