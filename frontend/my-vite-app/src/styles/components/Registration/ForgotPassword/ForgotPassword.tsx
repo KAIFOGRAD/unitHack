@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../FormInput/FormInput';
 import PrimaryButton from '../../Button/PrimaryButton';
+import PasswordHeader from '../PasswordHeader/PasswordHeader';
 import styles from './ForgotPassword.module.scss';
-import Star from '../../../../assets/Star.svg';
-import Back from '../../../../assets/back.svg';
 
 export default function ForgotPassword() {
     const navigate = useNavigate()
@@ -33,14 +32,7 @@ export default function ForgotPassword() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <button onClick={handleLogin} className={styles.back}>
-                    <img className={styles.back_img} src={Back} alt="Назад" />
-                </button>
-                <div className={styles.icon}>
-                    <img src={Star} alt="star" />
-                </div>
-            </div>
+            <PasswordHeader onBackClick={handleLogin}/>
             <h1 className={styles.title}>Забыли пароль?</h1>
             <p className={styles.subtitle}>Не переживайте. Мы оправим письмо для сброса пароля.</p>
 

@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PrimaryButton from '../../Button/PrimaryButton';
+import PasswordHeader from '../PasswordHeader/PasswordHeader';
 import styles from './EmailVerification.module.scss';
-import Star from '../../../../assets/Star.svg';
-import Back from '../../../../assets/back.svg';
 
 export default function EmailVerification() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [code, setCode] = useState<string[]>(['', '', '', '']); // 4 поля вместо 3
+    const [code, setCode] = useState<string[]>(['', '', '', '']); 
     const [timer, setTimer] = useState(59);
     const [email, setEmail] = useState('');
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -21,18 +20,16 @@ export default function EmailVerification() {
         }
     }, [location]);
 
-    // Автофокус на первом поле
     useEffect(() => {
         inputRefs.current[0]?.focus();
     }, []);
 
     const handleChange = (index: number, value: string) => {
-        if (/^\d*$/.test(value)) { // Разрешаем только цифры
+        if (/^\d*$/.test(value)) {
             const newCode = [...code];
             newCode[index] = value;
             setCode(newCode);
 
-            // Автопереход к следующему полю
             if (value && index < 3) {
                 inputRefs.current[index + 1]?.focus();
             }
@@ -41,7 +38,6 @@ export default function EmailVerification() {
 
     const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
         if (e.key === 'Backspace' && !code[index] && index > 0) {
-            // Переход к предыдущему полю при Backspace
             inputRefs.current[index - 1]?.focus();
         }
     };
@@ -110,14 +106,7 @@ export default function EmailVerification() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <button onClick={handleForgot} className={styles.back}>
-                    <img className={styles.back_img} src={Back} alt="Назад" />
-                </button>
-                <div className={styles.icon}>
-                    <img src={Star} alt="star" />
-                </div>
-            </div>
+            <PasswordHeader onBackClick={handleForgot} />
             
             <h1 className={styles.title}>Проверьте почту</h1>
             <p className={styles.subtitle}>

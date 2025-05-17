@@ -4,6 +4,7 @@ import LoginPage from './styles/components/Registration/LoginPage/LoginPage';
 import RegisterPage from './styles/components/Registration/RegisterPage/RegisterPage';
 import ForgotPassword from './styles/components/Registration/ForgotPassword/ForgotPassword';
 import EmailVerification from './styles/components/Registration/EmailVerification/EmailVerification';
+import PasswordReset from './styles/components/Registration/PasswordReset/PasswordReset';
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/email-verification' element={<EmailVerification />} />
+        <Route path='/password-reset' element={<PasswordReset />} />
       </Routes>
     </BrowserRouter>
   );
