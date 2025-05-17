@@ -19,7 +19,12 @@ export default function ForgotPassword() {
     };
 
     const handleSendCode = () => {
-        navigate('/password-recovery')
+        if (!formData.email) {
+           //сообщение что email нет или он невалиден
+        }
+        navigate('/email-verification', { 
+            state: { email: formData.email } 
+        });
     }
 
     const handleLogin = () => {
