@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class Executer extends TelegramBot {
     public void sendMessage(String messageText, long userId) {
-        SendMessage message = new SendMessage(); 
+        SendMessage message = new SendMessage();
         message.setText(messageText);
         message.setChatId(userId);
 
