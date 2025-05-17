@@ -5,6 +5,7 @@ import RegisterPage from './styles/components/Registration/RegisterPage/Register
 import ForgotPassword from './styles/components/Registration/ForgotPassword/ForgotPassword';
 import EmailVerification from './styles/components/Registration/EmailVerification/EmailVerification';
 import PasswordReset from './styles/components/Registration/PasswordReset/PasswordReset';
+import PasswordSucces from './styles/components/Registration/PasswordSucces/PasswordSucces';
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/email-verification' element={<EmailVerification />} />
         <Route path='/password-reset' element={<PasswordReset />} />
+        <Route path='/password-succes' element={<PasswordSucces />} />
       </Routes>
     </BrowserRouter>
   );
