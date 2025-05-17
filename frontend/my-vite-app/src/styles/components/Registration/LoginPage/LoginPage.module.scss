@@ -1,7 +1,7 @@
 .container {
     max-width: 375px;
     margin: 0 auto;
-    padding: 24px 16px;
+    padding: 16px 20px 0;
     font-family: 'Inter', sans-serif;
 }
 
@@ -9,46 +9,46 @@
     display: flex;
     justify-content: flex-end;
     font-size: 24px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .title {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
-    margin-bottom: 24px;
+    margin-bottom: 56px;
 }
 
 .forgotPassword {
     display: flex;
     justify-content: flex-start;
-    margin: -8px 0 20px;
+    margin: -16px 0 56px;
 }
 
 .link {
     font-size: 14px;
-    color: #555;
+    color: #737171;
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
 }
 
 .or {
     text-align: center;
-    margin: 20px 0;
-    color: #888;
+    margin: 16px 0;
+    color: #525150;
     font-size: 14px;
 }
 
 .socialButton {
     width: 100%;
-    padding: 12px;
-    border: 1.5px solid #ff6b00;
-    border-radius: 10px;
+    padding: 14px;
+    border: 1.5px solid #D4D3D2;
+    border-radius: 8px;
     background: #fff;
-    color: #000;
-    font-weight: 500;
-    font-size: 14px;
-    margin-bottom: 12px;
+    color: #171717;
+    font-weight: 600;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,3 +58,4 @@
 .vk {
     max-width: 18px;
 }
+

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './MainPage.module.scss';
-import image from '../../../../assets/Illustration.png'
+import image from '../../../../assets/Main.svg'
 import PrimaryButton from '../../Button/PrimaryButton';
 export default function MainPage() {
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function MainPage() {
                 <img src={image} alt="Logo" className={styles.logo} />
             </div>
 
-            <h1 className={styles.title}>Name project</h1>
+            <h1 className={styles.title}>Naumen NovaMeet</h1>
             <p className={styles.subtitle}>Все мероприятия в одном месте</p>
 
             <div className={styles.buttonGroup}>

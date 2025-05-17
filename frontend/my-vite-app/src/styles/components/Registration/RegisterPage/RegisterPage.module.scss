@@ -1,25 +1,51 @@
 .container {
     max-width: 375px;
     margin: 0 auto;
-    padding: 24px 16px;
+    padding: 16px 20px 0;
     font-family: 'Inter', sans-serif;
 }
 
-.title {
-    font-size: 28px;
-    font-weight: 700;
+.icon {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 24px;
     margin-bottom: 24px;
 }
 
-.login_container {
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 56px;
+}
 
+.button {
+    margin-top: 32px;
+    margin-bottom: 127px;
+}
+
+.login_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.login_text {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5%;
+    vertical-align: bottom;
+    color: #A3A1A0;
+    margin-right: 4px;
 }
 
 .login_link {
-
-}
-
-.login_button {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5%;
+    vertical-align: bottom;
 
 }
 

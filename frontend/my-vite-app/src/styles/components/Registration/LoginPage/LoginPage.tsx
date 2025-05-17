@@ -4,6 +4,7 @@
     import PrimaryButton from '../../Button/PrimaryButton';
     import styles from './LoginPage.module.scss';
     import VK from '../../../../assets/vk.svg'
+    import Star from '../../../../assets/Star.svg'
 
     export default function LoginPage() {
     const navigate = useNavigate();
@@ -25,7 +26,9 @@
 
     return (
         <div className={styles.container}>
-        <div className={styles.icon}>✦</div>
+        <div className={styles.icon}>
+            <img src={Star} alt="star" />
+        </div>
 
         <h1 className={styles.title}>Вход</h1>
 
@@ -43,7 +46,8 @@
             type="password"
             name="password"
             value={formData.password}
-            placeholder="Введите пароль"
+            // placeholder="• • • • • • • •"
+            placeholder='Введите пароль'
             onChange={handleChange}
         />
 
