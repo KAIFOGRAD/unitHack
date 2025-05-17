@@ -20,7 +20,7 @@
     };
 
     const handleLogin = () => {
-
+        navigate('/home')
     };
 
     const hadleForgot = () => {
