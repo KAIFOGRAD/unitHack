@@ -24,11 +24,10 @@ public class HelpHandler extends Executer implements IHandle {
             IHandle commandName = Handlers.commands.get(helpTo);
             if (commandName != null) {
                 answer = commandName.getInfo();
-                // sendMessage(commandName.getInfo(), userId);
+
             } else {
                 answer = "❌ такой комманды нет ❌\n" +
                         "Воспользуйся /help, что бы узнать какие комманды есть";
-                // sendMessage(errorMessage, userId);
             }
         }
         sendMessage(answer, userId);
