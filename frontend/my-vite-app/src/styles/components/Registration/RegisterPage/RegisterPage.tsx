@@ -4,6 +4,7 @@
     import PrimaryButton from '../../Button/PrimaryButton';
     import styles from './RegisterPage.module.scss';
     import Star from '../../../../assets/Star.svg'
+    
     export default function RegisterPage() {
     const navigate = useNavigate();
 

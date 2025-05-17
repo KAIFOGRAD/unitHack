@@ -21,8 +21,11 @@
 
     const handleLogin = () => {
 
-
     };
+
+    const hadleForgot = () => {
+        navigate('/forgot-password')
+    }
 
     return (
         <div className={styles.container}>
@@ -52,7 +55,7 @@
         />
 
         <div className={styles.forgotPassword}>
-            <button className={styles.link}>Забыли пароль?</button>
+            <button className={styles.link} onClick={hadleForgot}>Забыли пароль?</button>
         </div>
 
         <PrimaryButton text="Войти" onClick={handleLogin} />

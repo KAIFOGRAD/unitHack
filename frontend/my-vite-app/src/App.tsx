@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './styles/components/Registration/MainPage/MainPage';
 import LoginPage from './styles/components/Registration/LoginPage/LoginPage';
 import RegisterPage from './styles/components/Registration/RegisterPage/RegisterPage';
+import ForgotPassword from './styles/components/Registration/ForgotPassword/ForgotPassword';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );
