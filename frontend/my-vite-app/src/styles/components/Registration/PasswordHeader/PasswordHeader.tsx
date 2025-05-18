@@ -1,16 +1,18 @@
 import React from 'react';
 import styles from './PasswordHeader.module.scss';
 import Back from '../../../../assets/back.svg';
+import { useNavigate } from 'react-router-dom';
 import Star from '../../../../assets/Star.svg';
 
-interface PasswordHeaderProps {
-    onBackClick: () => void;
-}
+const PasswordHeader: React.FC = () => {
+    const navigate = useNavigate();
 
-const PasswordHeader: React.FC<PasswordHeaderProps> = ({ onBackClick }) => {
+    const handleBackClick = () => {
+        navigate(-1); 
+    };
     return (
         <div className={styles.header}>
-            <button onClick={onBackClick} className={styles.back}>
+            <button onClick={handleBackClick} className={styles.back}>
                 <img className={styles.back_img} src={Back} alt="Назад" />
             </button>
             <div className={styles.icon}>

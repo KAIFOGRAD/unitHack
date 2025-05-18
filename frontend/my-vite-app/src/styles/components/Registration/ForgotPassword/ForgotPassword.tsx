@@ -32,7 +32,7 @@ export default function ForgotPassword() {
 
     return (
         <div className={styles.container}>
-            <PasswordHeader onBackClick={handleLogin}/>
+            <PasswordHeader />
             <h1 className={styles.title}>Забыли пароль?</h1>
             <p className={styles.subtitle}>Не переживайте. Мы оправим письмо для сброса пароля.</p>
 
