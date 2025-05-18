@@ -78,7 +78,7 @@ public class UserService {
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        
+
         if (!user.isActive()) {
             throw new IllegalArgumentException("Account is not activated. Please verify your email first.");
         }
@@ -103,6 +103,15 @@ public class UserService {
     }
 
     @Transactional
+    public void activateUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+
+        user.setActive(true);
+        userRepository.save(user);
+    }
+
+    @Transactional
     public MessageResponse registerUser(SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             throw new IllegalArgumentException("Username is already taken!");
@@ -116,13 +125,13 @@ public class UserService {
         user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        user.setActive(false); 
+        user.setActive(false);
 
         Set<Role> roles = processRoles(signUpRequest.getRoles());
         user.setRoles(roles);
 
         userRepository.save(user);
-        
+
         sendVerificationEmail(user.getEmail());
 
         return new MessageResponse("User registered successfully! Please check your email for verification code.");
@@ -130,21 +139,21 @@ public class UserService {
 
     public void sendVerificationEmail(String email) {
         String code = generateVerificationCode();
-        
+
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setEmail(email);
         verificationCode.setCode(code);
         verificationCode.setExpiryDate(LocalDateTime.now().plusMinutes(CODE_EXPIRATION_MINUTES));
         verificationCodeRepository.save(verificationCode);
-        
+
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            
+
             helper.setTo(email);
             helper.setSubject("Email Verification Code");
             helper.setText("Your verification code is: " + code);
-            
+
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send verification email", e);
@@ -155,25 +164,25 @@ public class UserService {
     public MessageResponse verifyEmail(String email, String code) {
         Optional<VerificationCode> verificationCodeOpt = verificationCodeRepository
                 .findByEmailAndCodeAndUsedFalse(email, code);
-        
+
         if (verificationCodeOpt.isEmpty()) {
             throw new IllegalArgumentException("Invalid verification code");
         }
-        
+
         VerificationCode verificationCode = verificationCodeOpt.get();
-        
+
         if (verificationCode.getExpiryDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Verification code has expired");
         }
-        
+
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setActive(true);
         userRepository.save(user);
-        
+
         verificationCode.setUsed(true);
         verificationCodeRepository.save(verificationCode);
-        
+
         return new MessageResponse("Email verified successfully!");
     }
 
@@ -181,11 +190,11 @@ public class UserService {
         if (!userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email not found");
         }
-        
+
         verificationCodeRepository.deleteByEmail(email);
-        
+
         sendVerificationEmail(email);
-        
+
         return new MessageResponse("New verification code sent to your email");
     }
 
