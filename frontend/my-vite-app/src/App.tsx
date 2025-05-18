@@ -13,7 +13,7 @@ import CreateEventForm from './styles/components/Admin/CreateEventForm/CreateEve
 
 import styles from './App.module.scss'
 function App() {
-    const noFooterPaths = ['/login', '/register', '/forgot-password', '/email-verification', '/password-reset', '/password-succes', '/chat'];
+    const noFooterPaths = ['/login', '/register', '/forgot-password', '/email-verification', '/password-reset', '/password-succes', '/chat', '/admin-create-event'];
     const showFooter = !noFooterPaths.includes(location.pathname);
   return (
     <div className={styles.app}>
