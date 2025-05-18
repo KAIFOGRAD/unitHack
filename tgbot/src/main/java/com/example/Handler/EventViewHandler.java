@@ -1,6 +1,8 @@
 package com.example.Handler;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -23,6 +25,8 @@ public class EventViewHandler implements IHandle {
     public void handle(Update update) {
         long userId = Long.valueOf(update.getMessage().getChatId());
         List<Event> events = eventRepository.findAll();
+        Map<String,String> buttons = new LinkedHashMap<>();
+        buttons.put("Записаться", "/join");
         if(events.isEmpty()){
             executer.sendMessage("🎭Мероприятий пока нету", userId);
             return;
@@ -30,7 +34,7 @@ public class EventViewHandler implements IHandle {
         executer.sendMessage("Мероприятия", userId);
         for (Event event: events)
         {
-            executer.sendMessage(formatEvent(event),userId);
+            executer.sendInlineKeyboard(userId,formatEvent(event),buttons);
 
         }
     }

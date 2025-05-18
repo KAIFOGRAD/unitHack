@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -35,12 +36,48 @@ public class Executer {
         }
     }
 
-    private InlineKeyboardButton buttonCreator(String text, String callBack) {
-        InlineKeyboardButton Button = new InlineKeyboardButton();
-        Button.setText(text);
-        Button.setCallbackData(callBack);
-        return Button;
+    private InlineKeyboardButton createInlineButton(String text, String callbackData) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText(text);
+        button.setCallbackData(callbackData);
+        return button;
     }
+
+
+    public void sendInlineKeyboard(Long chatId, String messageText, Map<String, String> buttonCallbacks) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId.toString());
+        message.setText(messageText);
+        
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> currentRow = new ArrayList<>();
+        
+        int buttonCount = 0;
+        for (Map.Entry<String, String> entry : buttonCallbacks.entrySet()) {
+            currentRow.add(createInlineButton(entry.getKey(), entry.getValue()));
+            buttonCount++;
+            
+            if (buttonCount % 3 == 0) {
+                keyboard.add(currentRow);
+                currentRow = new ArrayList<>();
+            }
+        }
+        
+        if (!currentRow.isEmpty()) {
+            keyboard.add(currentRow);
+        }
+        
+        markup.setKeyboard(keyboard);
+        message.setReplyMarkup(markup);
+        
+        try {
+            absSender.execute(message);
+        } catch (TelegramApiException e) {
+            System.err.println("Ошибка отправки клавиатуры: " + e.getMessage());
+        }
+    }
+
 
     public void startKeyboardCreator(long chatId, List<String> buttonText, String text) {
         SendMessage message = new SendMessage();
