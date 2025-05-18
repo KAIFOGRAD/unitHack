@@ -1,0 +1,26 @@
+.searchBar {
+    display: flex;
+    width: 100%;
+    max-width: 335px;
+    margin: 10px 0 32px;
+    border: 1px solid #737171;
+    border-radius: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+input {
+    flex: 1;
+    padding: 14px 16px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.searchButton {
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 15px;
+    cursor: pointer;
+    }   
+}

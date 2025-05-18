@@ -1,0 +1,243 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 375px;
+  margin: 0 auto;
+  padding: 24px 20px 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  margin-right: 16px;
+  border: 2px solid #FF6721;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #fff8f3;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.back_img {
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 100%;
+  color: #0A0A0A;
+}
+
+.form {
+  width: 100%;
+  max-width: 335px;
+  margin: 0 auto;
+}
+
+.coverSection {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.coverLabel {
+  display: block;
+  width: 335px;
+  height: 200px;
+  cursor: pointer;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s;
+
+  &:hover {
+    border-color: #666;
+  }
+}
+
+.coverPlaceholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+
+  span:first-child {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+}
+
+.coverPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverInput {
+  display: none;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  width: 100%;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+
+  &:focus {
+    outline: none;
+    border-color: #4285f4;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.seatsOptions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+}
+
+.numberInput {
+  width: 80px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.timelineSection {
+  margin: 30px 0;
+  width: 100%;
+}
+
+.sectionTitle {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.timelineItem {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.timeInput {
+  grid-row: span 2;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.timelineInput {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.timelineTextarea {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 60px;
+  width: 100%;
+}
+
+.addTimelineButton {
+  background: none;
+  border: none;
+  color: #4285f4;
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.submitButton {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  max-width: 335px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #3367d6;
+  }
+}

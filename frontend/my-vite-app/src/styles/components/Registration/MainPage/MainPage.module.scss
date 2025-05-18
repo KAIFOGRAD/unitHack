@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+    padding: 100px 20px 152px 20px;
+    min-height: 100vh;
+    background-color: #fdfaf8;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.logoWrapper {
+    margin-bottom: 16px;
+}
+
+.logo {
+    width: 316px;
+    height: auto;
+}
+
+.title {
+    margin-bottom: 4px;
+    color: #000;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 100%;
+}
+
+.subtitle {
+    color: #444;
+    margin-bottom: 56px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: center;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 335px;
+}
+
+
+.secondaryButton {
+    background-color: transparent;
+    color: #FF6721;
+    border: 2px solid #FF6721;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
