@@ -111,29 +111,21 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public MessageResponse registerUser(SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            throw new IllegalArgumentException("Username is already taken!");
-        }
-
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new IllegalArgumentException("Email is already in use!");
-        }
-
+    @Transactional
+    public User registerUser(SignupRequest signUpRequest) {
         User user = new User();
-        user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
+        user.setUsername(signUpRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setActive(false);
 
-        Set<Role> roles = processRolesWithValidation(signUpRequest.getRoles());
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Role not found")));
+
         user.setRoles(roles);
 
-        User savedUser = userRepository.save(user);
-
-        sendVerificationEmail(user.getEmail());
-
-        return new MessageResponse("User registered successfully! Please check your email for verification code.");
+        return userRepository.save(user); 
     }
 
     public void sendVerificationEmail(String email) {

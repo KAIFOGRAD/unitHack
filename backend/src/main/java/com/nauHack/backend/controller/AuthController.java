@@ -46,6 +46,7 @@ public class AuthController {
 
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
+    private final UserRepository userRepository;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -55,20 +56,26 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        System.out.println("Registration request received: " + signUpRequest.getEmail()); 
+        System.out.println("Registration attempt for: " + signUpRequest.getEmail());
+
+        boolean emailExists = userRepository.existsByEmail(signUpRequest.getEmail());
+        System.out.println("Email exists check result: " + emailExists);
+
+        if (emailExists) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
         try {
-            System.out.println("Получен запрос на регистрацию: " + signUpRequest);
-
-            MessageResponse response = userService.registerUser(signUpRequest);
-
+            User user = userService.registerUser(signUpRequest);
             emailVerificationService.sendVerificationCode(signUpRequest.getEmail());
-
-            return ResponseEntity.ok(new MessageResponse("Код подтверждения отправлен на вашу электронную почту"));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Ошибка: " + e.getMessage()));
-        } catch (RuntimeException e) {
-            e.printStackTrace(); 
-            return ResponseEntity.internalServerError().body(new MessageResponse("Ошибка: " + e.getMessage()));
+            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        } catch (Exception e) {
+            System.out.println("Registration error: " + e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body(new MessageResponse("Registration failed"));
         }
     }
 

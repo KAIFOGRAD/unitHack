@@ -38,8 +38,8 @@ public class EmailVerificationService {
             throw new IllegalArgumentException("Invalid email format");
         }
 
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email is already in use");
+        if (!userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email is already not in use");
         }
 
         String code = generateRandomCode();
