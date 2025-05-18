@@ -17,7 +17,9 @@ public class RegistrationHandler implements IHandle {
     @Override
     public void handle(Update update) {
         long userId = Long.valueOf(update.getMessage().getChatId());
-        String answer = "логика registration пока в разработке \nZZZZZ";
+        String answer = "Нам приятно что ты пользуешься нашим продуктом ❤️\r\n" +
+                        "Для дальнейшей регистрации перейди на официальный сайт  Naumen NovaMeet\r\n" +
+                        "Будем рады видеть тебя снова !";
         executer.sendMessage(answer, userId);
     }
 
