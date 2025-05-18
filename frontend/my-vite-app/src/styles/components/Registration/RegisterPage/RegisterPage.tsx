@@ -55,7 +55,7 @@ export default function RegisterPage() {
     return (
         <div className={styles.container}>
             <div className={styles.icon}>
-                <img src={Star} alt="star" />
+                <img src={Logo} alt="star" />
             </div>
             <h1 className={styles.title}>Регистрация</h1>
 
