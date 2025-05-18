@@ -4,7 +4,7 @@
     import PrimaryButton from '../../Button/PrimaryButton';
     import styles from './LoginPage.module.scss';
     import VK from '../../../../assets/vk.svg'
-    import Star from '../../../../assets/Star.svg'
+    import Logo from '../../../../assets/logo.png'
 
     export default function LoginPage() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@
     return (
         <div className={styles.container}>
         <div className={styles.icon}>
-            <img src={Star} alt="star" />
+            <img src={Logo} alt="star" />
         </div>
 
         <h1 className={styles.title}>Вход</h1>

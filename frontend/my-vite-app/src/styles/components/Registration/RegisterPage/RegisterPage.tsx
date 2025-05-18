@@ -3,7 +3,7 @@
     import FormInput from '../../FormInput/FormInput';
     import PrimaryButton from '../../Button/PrimaryButton';
     import styles from './RegisterPage.module.scss';
-    import Star from '../../../../assets/Star.svg'
+    import Logo from '../../../../assets/logo.png'
     
     export default function RegisterPage() {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const handleRegister = () => {
     return (
         <div className={styles.container}>
             <div className={styles.icon}>
-                <img src={Star} alt="star" />
+                <img src={Logo} alt="star" />
             </div>
         <h1 className={styles.title}>Регистрация</h1>
 
