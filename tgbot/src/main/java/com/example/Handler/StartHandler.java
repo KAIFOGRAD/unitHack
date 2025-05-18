@@ -8,7 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.example.bot.Executer;
 
-
 @Component
 public class StartHandler implements IHandle {
 
