@@ -8,14 +8,15 @@ import PasswordReset from './styles/components/Registration/PasswordReset/Passwo
 import PasswordSucces from './styles/components/Registration/PasswordSucces/PasswordSucces';
 import AppFooter from './styles/components/AppFooter/AppFooter';
 import HomePage from './styles/components/HomePage/HomePage';
-
+import styles from './App.module.scss'
 function App() {
     const noFooterPaths = ['/login', '/register', '/forgot-password', '/email-verification', '/password-reset', '/password-succes'];
     const showFooter = !noFooterPaths.includes(location.pathname);
   return (
-    <div className="app">
+    <div className={styles.app}>
       <BrowserRouter>
-      <Routes>
+      <div className={styles.content}>
+        <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -25,6 +26,7 @@ function App() {
         <Route path='/password-succes' element={<PasswordSucces />} />
         <Route path='/home' element={<HomePage />} />
       </Routes>
+      </div>
       {showFooter && <AppFooter />}
     </BrowserRouter>
     

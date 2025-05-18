@@ -1,5 +1,7 @@
 .container {
     display: flex;
+    max-width: 375px;
+    margin: 0 auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -12,5 +14,22 @@
 }
 
 .title {
+    align-self: flex-start;
     margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    color: #0A0A0A;
+}
+
+.preview {
+    margin: 20px 0;
+    width: 100%;
+    max-width: 375px;
+}
+
+.notFound {
+    font-size: 16px;
+    color: #888;
+    text-align: center;
 }
