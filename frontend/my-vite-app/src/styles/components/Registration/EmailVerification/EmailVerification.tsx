@@ -42,7 +42,7 @@ export default function EmailVerification() {
             if (value && index < 5) { // Изменили с 3 на 5 для 6 полей
                 inputRefs.current[index + 1]?.focus();
             }
-            
+
             // Автоматическая отправка при заполнении всех полей
             if (newCode.every(digit => digit !== '')) {
                 handleVerification();
@@ -61,11 +61,11 @@ export default function EmailVerification() {
             const verificationCode = code.join('');
             await authApi.verifyEmail({ email, code: verificationCode });
 
-            if (location.state?.fromRegister) {
-                navigate('/home');
-            } else {
-                navigate('/password-reset', { state: { email } });
-            }
+            navigate('/login', {
+                state: {
+                    message: 'Email успешно подтверждён. Теперь вы можете войти.'
+                }
+            });
         } catch (error) {
             setError('Неверный код подтверждения');
         } finally {
