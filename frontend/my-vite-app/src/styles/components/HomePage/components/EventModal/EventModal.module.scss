@@ -1,0 +1,27 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 999;
+}
+
+.modal {
+    background: #fff;
+    width: 100%;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    animation: slideUp 0.3s ease-in-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
