@@ -5,7 +5,7 @@ import type { KeyboardEvent } from 'react';
 import styles from './Chat.module.scss';
 import ChatImg from '../../../assets/chat.jpg';
 import Back from '../../../assets/back.svg';
-
+import Send from '../../../assets/send.svg';
 
 export default function Chat() {
     const [messages, setMessages] = useState<string[]>([]);
@@ -50,6 +50,12 @@ export default function Chat() {
                         alt="Empty chat"
                         className={styles.placeholderImage}
                         />
+                        <h2 className={styles.subtitle}>
+                            Здесь пока ничего нет
+                        </h2>
+                        <p className={styles.descr}>
+                            Напишите сообщение — организатор скоро ответит
+                        </p>
                     </div>
                     ) : (
                     messages.map((msg, idx) => (
@@ -62,18 +68,22 @@ export default function Chat() {
 
                 <div className={styles.inputContainer}>
                     <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Введите сообщение"
-                    className={styles.input}
+                        type="text"
+                        value={input}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        placeholder="Введите сообщение"
+                        className={styles.input}
                     />
-                    <button onClick={handleSend} className={styles.button}>
-                    Отправить
+                    <button 
+                        onClick={handleSend} 
+                        className={styles.button}
+                        disabled={!input.trim()}
+                    >
+                    <img src={Send} alt="Отправить" className={styles.planeIcon} />
                     </button>
                 </div>
             </div>
         </div>
     );
-};
+}

@@ -99,7 +99,7 @@ const EventCard: React.FC<EventCardProps> = ({
             )}
 
         {variant === 'modal' && (
-          <button className={styles.chatBtn}  onClick={handleChat}>Задать вопрос</button>
+          <button className={styles.chatBtn}  onClick={handleChat}>Чат мероприятия</button>
         )}
 
           <section className={styles.descriptionSection}>

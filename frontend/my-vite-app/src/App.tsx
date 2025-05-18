@@ -9,10 +9,11 @@ import PasswordSucces from './styles/components/Registration/PasswordSucces/Pass
 import AppFooter from './styles/components/AppFooter/AppFooter';
 import HomePage from './styles/components/HomePage/HomePage';
 import Chat from './styles/components/Chat/Chat';
+import CreateEventForm from './styles/components/Admin/CreateEventForm/CreateEventForm';
 
 import styles from './App.module.scss'
 function App() {
-    const noFooterPaths = ['/login', '/register', '/forgot-password', '/email-verification', '/password-reset', '/password-succes', '/chat'];
+    const noFooterPaths = ['/login', '/register', '/forgot-password', '/email-verification', '/password-reset', '/password-succes', '/chat', '/admin-create-event'];
     const showFooter = !noFooterPaths.includes(location.pathname);
   return (
     <div className={styles.app}>
@@ -28,6 +29,7 @@ function App() {
         <Route path='/password-succes' element={<PasswordSucces />} />
         <Route path='/home' element={<HomePage />} />
         <Route path='/chat' element={<Chat />} />
+        <Route path='/admin-create-event' element={<CreateEventForm />} />
       </Routes>
       </div>
       {showFooter && <AppFooter />}
