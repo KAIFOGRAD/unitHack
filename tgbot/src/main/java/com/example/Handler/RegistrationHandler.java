@@ -6,13 +6,19 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.example.bot.Executer;
 
 @Component
-public class RegistrationHandler extends Executer implements IHandle {
+public class RegistrationHandler implements IHandle {
+
+    private final Executer executer;
+    public RegistrationHandler(Executer executer) {
+        this.executer=executer;
+        //TODO Auto-generated constructor stub
+    }
 
     @Override
     public void handle(Update update) {
         long userId = Long.valueOf(update.getMessage().getChatId());
         String answer = "логика registration пока в разработке";
-        sendMessage(answer, userId);
+        executer.sendMessage(answer, userId);
     }
 
     @Override

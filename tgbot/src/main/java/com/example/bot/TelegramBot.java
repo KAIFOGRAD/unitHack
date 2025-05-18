@@ -1,5 +1,6 @@
 package com.example.bot;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -10,11 +11,17 @@ import com.example.Handler.Handlers;
 @Component
 @Primary
 public class TelegramBot extends TelegramLongPollingBot {
+    private final Handlers messageList;
+
+    @Lazy
+    public TelegramBot(Handlers handlers)
+    {
+        this.messageList = handlers;
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
         System.out.println(update.getMessage().getText());
-        Handlers messageList = new Handlers();
         if (update.hasMessage() && update.getMessage().hasText()) {
             messageList.Handle(update);
         }

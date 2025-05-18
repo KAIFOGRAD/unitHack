@@ -6,13 +6,20 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.example.bot.Executer;
 
 @Component
-public class StartHandler extends Executer implements IHandle {
+public class StartHandler implements IHandle {
+
+    private final Executer executer;
+
+    public StartHandler(Executer executer) {
+        this.executer=executer;
+        //TODO Auto-generated constructor stub
+    }
 
     @Override
     public void handle(Update update) {
         String answer = "Вы попали в бота наумен для мероприятий, Добро пожаловать!";
         long userId = Long.valueOf(update.getMessage().getChatId());
-        sendMessage(answer, userId);
+        executer.sendMessage(answer, userId);
 
     }
 

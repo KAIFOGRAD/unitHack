@@ -6,7 +6,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.example.bot.Executer;
 
 @Component
-public class HelpHandler extends Executer implements IHandle {
+public class HelpHandler implements IHandle {
+
+    private final Executer executer;
+
+    public HelpHandler(Executer executer) {
+        this.executer = executer;
+    }
 
     @Override
     public void handle(Update update) {
@@ -32,7 +38,7 @@ public class HelpHandler extends Executer implements IHandle {
                         "Воспользуйся /help, что бы узнать какие комманды есть";
             }
         }
-        sendMessage(answer, userId);
+        executer.sendMessage(answer, userId);
     }
 
     @Override
