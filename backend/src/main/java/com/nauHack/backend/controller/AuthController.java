@@ -38,7 +38,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -56,15 +56,18 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
+            System.out.println("Получен запрос на регистрацию: " + signUpRequest);
+
             MessageResponse response = userService.registerUser(signUpRequest);
-            
+
             emailVerificationService.sendVerificationCode(signUpRequest.getEmail());
-            
-            return ResponseEntity.ok(new MessageResponse("Verification code sent to your email"));
+
+            return ResponseEntity.ok(new MessageResponse("Код подтверждения отправлен на вашу электронную почту"));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new MessageResponse("Ошибка: " + e.getMessage()));
         } catch (RuntimeException e) {
-            return ResponseEntity.internalServerError().body(new MessageResponse("Error: " + e.getMessage()));
+            e.printStackTrace(); 
+            return ResponseEntity.internalServerError().body(new MessageResponse("Ошибка: " + e.getMessage()));
         }
     }
 
@@ -72,10 +75,9 @@ public class AuthController {
     public ResponseEntity<?> verifyEmail(@Valid @RequestBody EmailVerificationRequest verificationRequest) {
         try {
             boolean verified = emailVerificationService.verifyCode(
-                verificationRequest.getEmail(), 
-                verificationRequest.getCode()
-            );
-            
+                    verificationRequest.getEmail(),
+                    verificationRequest.getCode());
+
             if (verified) {
                 userService.activateUser(verificationRequest.getEmail());
                 return ResponseEntity.ok(new MessageResponse("Email verified successfully!"));
