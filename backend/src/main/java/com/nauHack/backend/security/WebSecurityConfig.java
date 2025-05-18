@@ -25,8 +25,6 @@ import com.nauHack.backend.service.UserDetailsServiceImpl;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    
-
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -74,6 +72,9 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/api/chat/**").authenticated()
+                                .requestMatchers("/ws-chat/**").permitAll() 
+                                .requestMatchers("/topic/**").permitAll()
                                 .requestMatchers(
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
