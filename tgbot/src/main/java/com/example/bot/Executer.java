@@ -1,8 +1,10 @@
 package com.example.bot;
 
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+@Component
 public class Executer extends TelegramBot {
     public void sendMessage(String messageText, long userId) {
         SendMessage message = new SendMessage();

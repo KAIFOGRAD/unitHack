@@ -3,8 +3,10 @@ package com.example.Handler;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.jvnet.hk2.annotations.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@Service
 public class Handlers {
     public static Map<String, IHandle> commands = new LinkedHashMap<>();
 
