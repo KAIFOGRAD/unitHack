@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 /* Отключаем браузерные дефолтные стили для всех элементов */
@@ -126,4 +127,10 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+body, html, #root {
+  overflow-y: scroll;
+  height: 100%;      
+  min-height: 100vh; 
 }

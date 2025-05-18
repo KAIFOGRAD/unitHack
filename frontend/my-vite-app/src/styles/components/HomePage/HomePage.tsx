@@ -13,8 +13,8 @@ export default function HomePage() {
             <img className={styles.star} src={Star} alt="star" />
             <h1 className={styles.title}>Мероприятия</h1>
             <EventCard
-                title="Хакатон по ИИ"
-                date="20 мая 2025"
+                title="UNIT.HACK"
+                date="20.05.2025"
                 category="Хакатон"
                 description="UNIT.HACK 2025 — крупнейший межвузовский хакатон для студентов Екатеринбурга."
                 imageUrl={UnitHack}
