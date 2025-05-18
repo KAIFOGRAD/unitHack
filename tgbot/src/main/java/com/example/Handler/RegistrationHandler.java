@@ -17,7 +17,7 @@ public class RegistrationHandler implements IHandle {
     @Override
     public void handle(Update update) {
         long userId = Long.valueOf(update.getMessage().getChatId());
-        String answer = "логика registration пока в разработке";
+        String answer = "логика registration пока в разработке \nZZZZZ";
         executer.sendMessage(answer, userId);
     }
 

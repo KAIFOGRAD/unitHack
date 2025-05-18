@@ -27,22 +27,25 @@ public class EventViewHandler implements IHandle {
             executer.sendMessage("🎭Мероприятий пока нету", userId);
             return;
         }
-        StringBuilder answer = new StringBuilder("Мероприятия");
+        executer.sendMessage("Мероприятия", userId);
         for (Event event: events)
         {
-            answer.append(formatEvent(event)).append("\n");
+            executer.sendMessage(formatEvent(event),userId);
+
         }
-        executer.sendMessage(answer.toString(), userId);
     }
 
-    private Object formatEvent(Event event) {
-        return String.format(
-                "🔹 *%s*\n" +
-                "👥 %d/%d мест\n" +
-                "🎭 Организатор: @%s",
-                event.getName(),
-                event.getMaxSeats(),
-                event.getOrganizer());
+    private String formatEvent(Event event) {
+        StringBuilder answer = new StringBuilder();
+        answer.append("🔹 ")
+            .append(event.getName())    
+            .append("\n👥 ")
+            .append(event.getNumberSeats())
+            .append(" \\")
+            .append(event.getMaxSeats())
+            .append("\n🎭")
+            .append(event.getDescription());
+        return answer.toString();
     }
 
     @Override
