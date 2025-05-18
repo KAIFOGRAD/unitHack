@@ -18,6 +18,7 @@ public class Handlers {
         new StartHandler().register(commands);
         new HelpHandler().register(commands);
         new EventViewHandler().register(commands);
+        new RegistrationHandler().register(commands);
     }
 
     public void Handle(Update update) {
