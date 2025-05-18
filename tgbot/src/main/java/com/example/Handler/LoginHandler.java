@@ -16,7 +16,7 @@ public class LoginHandler extends Executer implements IHandle{
     @Override
     public String getInfo() {
         String answer = "Эта команда для входа в свой аккаунт\n"
-                + " Регестрируйся если нет аккаунта /register\n"
+                + "Регестрируйся если нет аккаунта /register\n"
                 + "Если аккаунт есть, то жми /login";
         return answer;    
     }
