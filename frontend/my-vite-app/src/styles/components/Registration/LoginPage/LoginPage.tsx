@@ -30,7 +30,7 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
-      const response = await authApi.login(formData.email, formData.password);
+      const response = await authApi.login(formData); 
       localStorage.setItem('token', response.accessToken);
       navigate('/home');
     } catch (error) {

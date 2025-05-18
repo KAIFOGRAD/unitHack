@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { authApi } from '../../../../api/auth'; // Ensure this API is correctly set up
+import { authApi } from '../../../../api/auth';
 import PrimaryButton from '../../Button/PrimaryButton';
 import PasswordHeader from '../PasswordHeader/PasswordHeader';
 import styles from './EmailVerification.module.scss';
@@ -8,7 +8,7 @@ import styles from './EmailVerification.module.scss';
 export default function EmailVerification() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [code, setCode] = useState<string[]>(['', '', '', '']);
+    const [code, setCode] = useState<string[]>(['', '', '', '', '', '']); // 6 полей вместо 4
     const [timer, setTimer] = useState(59);
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
@@ -38,12 +38,17 @@ export default function EmailVerification() {
             setCode(newCode);
             setError('');
 
-            if (value && index < 3) {
+            // Переход к следующему полю при вводе цифры
+            if (value && index < 5) { // Изменили с 3 на 5 для 6 полей
                 inputRefs.current[index + 1]?.focus();
+            }
+            
+            // Автоматическая отправка при заполнении всех полей
+            if (newCode.every(digit => digit !== '')) {
+                handleVerification();
             }
         }
     };
-
 
     const handleVerification = async () => {
         if (!code.every(digit => digit !== '')) {
@@ -82,6 +87,7 @@ export default function EmailVerification() {
             setError('Ошибка при отправке кода');
         }
     };
+
     const isCodeComplete = code.every(digit => digit !== '');
 
     return (
@@ -104,6 +110,12 @@ export default function EmailVerification() {
                         maxLength={1}
                         value={digit}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        onKeyDown={(e) => {
+                            // Обработка удаления - переход к предыдущему полю
+                            if (e.key === 'Backspace' && !digit && index > 0) {
+                                inputRefs.current[index - 1]?.focus();
+                            }
+                        }}
                         className={styles.codeInput}
                         autoFocus={index === 0}
                     />
@@ -120,6 +132,7 @@ export default function EmailVerification() {
             <button
                 className={`${styles.resendButton} ${timer > 0 ? styles.disabled : ''}`}
                 onClick={handleResendCode}
+                disabled={timer > 0}
             >
                 Отправить код повторно {timer > 0 && `(0:${timer.toString().padStart(2, '0')})`}
             </button>
