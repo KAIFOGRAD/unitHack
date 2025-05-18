@@ -22,10 +22,6 @@ public class LoginHandler implements IHandle {
     @Override
     public void handle(Update update) {
         long userId = Long.valueOf(update.getMessage().getChatId());
-        String text = update.getMessage().getText().split(" ")[1];
-        String text1 = update.getMessage().getText().split(" ")[2];
-        executer.sendMessage(text1, userId);        
-        executer.sendMessage(text, userId);
         String answer = "логика login пока в разработке";
         executer.sendMessage(answer, userId);
     }

@@ -17,13 +17,15 @@ public class Handlers {
         HelpHandler helpHandler,
         EventViewHandler eventViewHandler,
         RegistrationHandler registrationHandler,
-        LoginHandler loginHandler
+        LoginHandler loginHandler,
+        JoinHandler joinHandler
     ) {
         startHandler.register(commands);
         helpHandler.register(commands);
         eventViewHandler.register(commands);
         registrationHandler.register(commands);
         loginHandler.register(commands);
+        joinHandler.register(commands);
     }
 
     public void Handle(Update update) {
