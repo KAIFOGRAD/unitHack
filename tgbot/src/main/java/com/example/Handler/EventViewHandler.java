@@ -1,9 +1,11 @@
 package com.example.Handler;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.example.bot.Executer;
 
+@Component
 public class EventViewHandler extends Executer implements IHandle {
 
     @Override
