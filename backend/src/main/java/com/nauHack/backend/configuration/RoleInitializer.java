@@ -1,5 +1,7 @@
 package com.nauHack.backend.configuration;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -9,22 +11,22 @@ import com.nauHack.backend.entities.User.Role;
 import com.nauHack.backend.repository.RoleRepository;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleInitializer implements CommandLineRunner {
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public void run(String... args) {
-        if (roleRepository.findByName(ERole.ROLE_USER).isEmpty()) {
-            Role userRole = new Role(ERole.ROLE_USER);
-            roleRepository.save(userRole);
-        }
-        if (roleRepository.findByName(ERole.ROLE_ADMIN).isEmpty()) {
-            Role adminRole = new Role(ERole.ROLE_ADMIN);
-            roleRepository.save(adminRole);
-        }
+        Arrays.stream(ERole.values())
+              .filter(role -> !roleRepository.existsByName(role))
+              .forEach(role -> {
+                  Role newRole = new Role(role);
+                  roleRepository.save(newRole);
+                  System.out.println("Created role: " + role.name());
+              });
     }
 }

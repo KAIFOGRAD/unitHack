@@ -10,9 +10,8 @@ export default function RegisterPage() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
-        login: '',
+        username: '', // Changed from login to match backend
         password: '',
-        role: 'user'
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -23,28 +22,31 @@ export default function RegisterPage() {
     };
 
     const handleRegister = async () => {
-        if (!formData.email || !formData.login || !formData.password) {
-            setError('Заполните все поля');
-            return;
-        }
-
         try {
             setLoading(true);
             setError('');
-            await authApi.register(formData);
+
+            await authApi.register({
+                email: formData.email,
+                username: formData.username,
+                password: formData.password
+            });
 
             navigate('/email-verification', {
-                state: {
-                    email: formData.email,
-                    fromRegister: true,
-                },
+                state: { email: formData.email }
             });
-        } catch (error) {
-            setError('Ошибка регистрации. Возможно, email уже используется');
+        } catch (error: any) {
+            console.error('Registration error:', error);
+            if (error.response && error.response.status === 400) {
+                setError('Пользователь с таким именем уже существует. Пожалуйста, выберите другое имя.');
+            } else {
+                setError(error.message || 'Registration failed. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
     };
+
 
     const handleLogin = () => {
         navigate('/login');
@@ -60,11 +62,11 @@ export default function RegisterPage() {
             {error && <div className={styles.error}>{error}</div>}
 
             <FormInput
-                label="Логин"
+                label="Username" // Changed from Логин
                 type="text"
-                name="login"
-                value={formData.login}
-                placeholder="Введите логин"
+                name="username" // Changed from login
+                value={formData.username}
+                placeholder="Enter username"
                 onChange={handleChange}
             />
 
@@ -78,24 +80,24 @@ export default function RegisterPage() {
             />
 
             <FormInput
-                label="Пароль"
+                label="Password"
                 type="password"
                 name="password"
                 value={formData.password}
-                placeholder="Введите пароль"
+                placeholder="Enter password"
                 onChange={handleChange}
             />
 
             <PrimaryButton
-                text={loading ? 'Регистрация...' : 'Создать аккаунт'}
+                text={loading ? 'Registering...' : 'Create Account'}
                 onClick={handleRegister}
                 disabled={loading}
                 className={styles.button}
             />
 
             <div className={styles.login_container}>
-                <p className={styles.login_text}>Есть аккаунт?</p>
-                <a className={styles.login_link} onClick={handleLogin}>Войти</a>
+                <p className={styles.login_text}>Already have an account?</p>
+                <a className={styles.login_link} onClick={handleLogin}>Login</a>
             </div>
         </div>
     );

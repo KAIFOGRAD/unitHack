@@ -55,6 +55,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        System.out.println("Registration request received: " + signUpRequest.getEmail()); 
         try {
             System.out.println("Получен запрос на регистрацию: " + signUpRequest);
 

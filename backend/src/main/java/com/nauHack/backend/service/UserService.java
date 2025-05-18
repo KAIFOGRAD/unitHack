@@ -63,6 +63,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class, noRollbackFor = IllegalArgumentException.class)
 public class UserService {
 
     private final AuthenticationManager authenticationManager;
@@ -102,7 +103,6 @@ public class UserService {
                 roles);
     }
 
-    @Transactional
     public void activateUser(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
@@ -111,7 +111,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
     public MessageResponse registerUser(SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             throw new IllegalArgumentException("Username is already taken!");
@@ -127,10 +126,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setActive(false);
 
-        Set<Role> roles = processRoles(signUpRequest.getRoles());
+        Set<Role> roles = processRolesWithValidation(signUpRequest.getRoles());
         user.setRoles(roles);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         sendVerificationEmail(user.getEmail());
 
@@ -160,7 +159,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     public MessageResponse verifyEmail(String email, String code) {
         Optional<VerificationCode> verificationCodeOpt = verificationCodeRepository
                 .findByEmailAndCodeAndUsedFalse(email, code);
@@ -203,27 +201,27 @@ public class UserService {
         return String.format("%06d", random.nextInt(999999));
     }
 
-    private Set<Role> processRoles(Set<String> strRoles) {
+    private Set<Role> processRolesWithValidation(Set<String> strRoles) {
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null || strRoles.isEmpty()) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Role USER not found"));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role.toLowerCase()) {
-                    case "admin":
-                        roles.add(roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Role ADMIN not found")));
-                        break;
-                    default:
-                        roles.add(roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Role USER not found")));
+        try {
+            if (strRoles == null || strRoles.isEmpty()) {
+                roles.add(getValidatedRole(ERole.ROLE_USER));
+            } else {
+                for (String roleStr : strRoles) {
+                    ERole roleEnum = ERole.valueOf("ROLE_" + roleStr.toUpperCase());
+                    roles.add(getValidatedRole(roleEnum));
                 }
-            });
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role specified: " + e.getMessage());
         }
 
         return roles;
+    }
+
+    private Role getValidatedRole(ERole role) {
+        return roleRepository.findByName(role)
+                .orElseThrow(() -> new IllegalStateException("Role " + role + " not found in database"));
     }
 }

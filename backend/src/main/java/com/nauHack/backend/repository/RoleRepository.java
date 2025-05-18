@@ -9,6 +9,7 @@ import com.nauHack.backend.entities.User.ERole;
 import com.nauHack.backend.entities.User.Role;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
     Optional<Role> findByName(ERole name);
+    boolean existsByName(ERole name);
 }
