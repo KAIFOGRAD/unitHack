@@ -43,7 +43,7 @@ public class User {
     @NotBlank
     @Size(max = 50)
     @Email
-    private String email;
+    private String email; 
 
     @NotBlank
     @Size(max = 120)
