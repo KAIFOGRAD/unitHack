@@ -19,9 +19,18 @@
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleRegister = () => {
+const handleRegister = () => {
+    navigate('/email-verification', {
+        state: {
+            email: formData.email,
+            fromRegister: true,
+        },
+    });
+};
+
+    const handleLogin = () => {
         navigate('/login');
-    };
+    }
 
     return (
         <div className={styles.container}>
@@ -65,7 +74,7 @@
 
         <div className={styles.login_container}>
             <p className={styles.login_text}>Есть аккаунт?</p>
-            <a className={styles.login_link} onClick={handleRegister}>Войти</a>
+            <a className={styles.login_link} onClick={handleLogin}>Войти</a>
         </div>
         </div>
 

@@ -93,20 +93,20 @@ export default function EmailVerification() {
     };
 
     const handleVerification = () => {
-        if (code.every(digit => digit !== '')) {
+    if (code.every(digit => digit !== '')) {
+        if (location.state?.fromRegister) {
+            navigate('/home');
+        } else {
             navigate('/password-reset', { state: { email } });
         }
-    };
-
-    const handleForgot = () => {
-        navigate('/forgot-password');
-    };
+    }
+};
 
     const isCodeComplete = code.every(digit => digit !== '');
 
     return (
         <div className={styles.container}>
-            <PasswordHeader onBackClick={handleForgot} />
+            <PasswordHeader />
             
             <h1 className={styles.title}>Проверьте почту</h1>
             <p className={styles.subtitle}>

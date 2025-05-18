@@ -41,7 +41,7 @@ export default function PasswordReset() {
 
     return (
         <div className={styles.container}>
-            <PasswordHeader onBackClick={handleBack} />
+            <PasswordHeader />
             <h1 className={styles.title}>Восстановление пароля</h1>
 
             <FormInput
