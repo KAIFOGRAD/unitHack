@@ -10,7 +10,7 @@ import Star from '../../../../assets/Star.svg';
 export default function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
+    username: '', // Change from email to username
     password: '',
   });
   const [error, setError] = useState('');
@@ -23,18 +23,18 @@ export default function LoginPage() {
   };
 
   const handleLogin = async () => {
-    if (!formData.email || !formData.password) {
+    if (!formData.username || !formData.password) {
       setError('Заполните все поля');
       return;
     }
 
     try {
       setLoading(true);
-      const response = await authApi.login(formData); 
+      const response = await authApi.login(formData); // Use username instead of email
       localStorage.setItem('token', response.accessToken);
       navigate('/home');
     } catch (error) {
-      setError('Неверный email или пароль');
+      setError('Неверный логин или пароль'); // Update error message
     } finally {
       setLoading(false);
     }
@@ -55,11 +55,11 @@ export default function LoginPage() {
       {error && <div className={styles.error}>{error}</div>}
 
       <FormInput
-        label="Email"
-        type="email"
-        name="email"
-        value={formData.email}
-        placeholder="Введите адрес электронной почты"
+        label="Логин" // Change label from Email to Username
+        type="text" // Change type to text for username
+        name="username" // Update name to username
+        value={formData.username} // Bind to username
+        placeholder="Введите логин" // Update placeholder
         onChange={handleChange}
       />
 
