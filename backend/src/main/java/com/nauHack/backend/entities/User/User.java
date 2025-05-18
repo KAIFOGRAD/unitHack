@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.nauHack.backend.entities.Event;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -62,5 +63,8 @@ public class User {
     @ManyToMany
     @JoinTable(name = "user_favorite_events", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> favoriteEvents = new HashSet<>();
+
+    @Column(nullable = false)
+    private boolean active = false;
 
 }
