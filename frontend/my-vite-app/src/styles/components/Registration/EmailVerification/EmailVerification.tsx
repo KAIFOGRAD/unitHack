@@ -1,125 +1,128 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { authApi } from '../../../../api/auth';
+import { authApi } from '../../../../api/auth'; // Ensure this API is correctly set up
 import PrimaryButton from '../../Button/PrimaryButton';
 import PasswordHeader from '../PasswordHeader/PasswordHeader';
 import styles from './EmailVerification.module.scss';
 
 export default function EmailVerification() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [code, setCode] = useState<string[]>(['', '', '', '']);
-  const [timer, setTimer] = useState(59);
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [code, setCode] = useState<string[]>(['', '', '', '']);
+    const [timer, setTimer] = useState(59);
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    if (location.state?.email) {
-      setEmail(location.state.email);
-    } else {
-      navigate('/forgot-password');
-    }
-  }, [location, navigate]);
+    useEffect(() => {
+        if (location.state?.email) {
+            setEmail(location.state.email);
+        } else {
+            navigate('/forgot-password');
+        }
+    }, [location, navigate]);
 
-  useEffect(() => {
-    const interval = timer > 0 ? setInterval(() => {
-      setTimer(prev => prev - 1);
-    }, 1000) : undefined;
-    
-    return () => clearInterval(interval);
-  }, [timer]);
+    useEffect(() => {
+        const interval = timer > 0 ? setInterval(() => {
+            setTimer(prev => prev - 1);
+        }, 1000) : undefined;
 
-  const handleChange = (index: number, value: string) => {
-    if (/^\d*$/.test(value)) {
-      const newCode = [...code];
-      newCode[index] = value;
-      setCode(newCode);
-      setError('');
+        return () => clearInterval(interval);
+    }, [timer]);
 
-      if (value && index < 3) {
-        inputRefs.current[index + 1]?.focus();
-      }
-    }
-  };
+    const handleChange = (index: number, value: string) => {
+        if (/^\d*$/.test(value)) {
+            const newCode = [...code];
+            newCode[index] = value;
+            setCode(newCode);
+            setError('');
 
-  const handleVerification = async () => {
-    if (!code.every(digit => digit !== '')) {
-      setError('Введите полный код');
-      return;
-    }
+            if (value && index < 3) {
+                inputRefs.current[index + 1]?.focus();
+            }
+        }
+    };
 
-    try {
-      setLoading(true);
-      const verificationCode = code.join('');
-      await authApi.verifyEmail({ email, code: verificationCode });
-      
-      if (location.state?.fromRegister) {
-        navigate('/home');
-      } else {
-        navigate('/password-reset', { state: { email } });
-      }
-    } catch (error) {
-      setError('Неверный код подтверждения');
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleResendCode = async () => {
-    if (timer > 0) return;
+    const handleVerification = async () => {
+        if (!code.every(digit => digit !== '')) {
+            setError('Введите полный код');
+            return;
+        }
 
-    try {
-      await authApi.resendCode(email);
-      setTimer(59);
-      setError('');
-    } catch (error) {
-      setError('Ошибка при отправке кода');
-    }
-  };
+        try {
+            setLoading(true);
+            const verificationCode = code.join('');
+            await authApi.verifyEmail({ email, code: verificationCode });
 
-  const isCodeComplete = code.every(digit => digit !== '');
+            if (location.state?.fromRegister) {
+                navigate('/home');
+            } else {
+                navigate('/password-reset', { state: { email } });
+            }
+        } catch (error) {
+            setError('Неверный код подтверждения');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className={styles.container}>
-      <PasswordHeader />
-      <h1 className={styles.title}>Проверьте почту</h1>
-      <p className={styles.subtitle}>
-        Мы отправили письмо на <span className={styles.email}>{email}</span>
-      </p>
+    const handleResendCode = async () => {
+        if (timer > 0) return;
 
-      {error && <div className={styles.error}>{error}</div>}
+        try {
+            console.log("Attempting to resend code to:", email);
+            await authApi.resendCode({ email });
+            console.log("Resend code request successful");
+            setTimer(59);
+            setError('');
+        } catch (error) {
+            console.error("Error resending code:", error);
+            setError('Ошибка при отправке кода');
+        }
+    };
+    const isCodeComplete = code.every(digit => digit !== '');
 
-      <div className={styles.codeInputs}>
-        {code.map((digit, index) => (
-          <input
-            key={index}
-            ref={el => inputRefs.current[index] = el}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={digit}
-            onChange={(e) => handleChange(index, e.target.value)}
-            className={styles.codeInput}
-            autoFocus={index === 0}
-          />
-        ))}
-      </div>
+    return (
+        <div className={styles.container}>
+            <PasswordHeader />
+            <h1 className={styles.title}>Проверьте почту</h1>
+            <p className={styles.subtitle}>
+                Мы отправили письмо на <span className={styles.email}>{email}</span>
+            </p>
 
-      <PrimaryButton
-        text={loading ? 'Проверка...' : 'Подтвердить'}
-        onClick={handleVerification}
-        disabled={!isCodeComplete || loading}
-        className={styles.submitButton}
-      />
+            {error && <div className={styles.error}>{error}</div>}
 
-      <button 
-        className={`${styles.resendButton} ${timer > 0 ? styles.disabled : ''}`}
-        onClick={handleResendCode}
-      >
-        Отправить код повторно {timer > 0 && `(0:${timer.toString().padStart(2, '0')})`}
-      </button>
-    </div>
-  );
+            <div className={styles.codeInputs}>
+                {code.map((digit, index) => (
+                    <input
+                        key={index}
+                        ref={el => inputRefs.current[index] = el}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        className={styles.codeInput}
+                        autoFocus={index === 0}
+                    />
+                ))}
+            </div>
+
+            <PrimaryButton
+                text={loading ? 'Проверка...' : 'Подтвердить'}
+                onClick={handleVerification}
+                disabled={!isCodeComplete || loading}
+                className={styles.submitButton}
+            />
+
+            <button
+                className={`${styles.resendButton} ${timer > 0 ? styles.disabled : ''}`}
+                onClick={handleResendCode}
+            >
+                Отправить код повторно {timer > 0 && `(0:${timer.toString().padStart(2, '0')})`}
+            </button>
+        </div>
+    );
 }

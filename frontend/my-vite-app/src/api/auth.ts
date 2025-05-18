@@ -16,7 +16,7 @@ export const authApi = {
             data: { message?: string };
           };
         };
-        
+
         if (axiosError.isAxiosError && axiosError.response) {
           throw {
             status: axiosError.response.status,
@@ -24,7 +24,7 @@ export const authApi = {
           };
         }
       }
-      
+
       throw {
         status: 500,
         message: 'Произошла неожиданная ошибка. Пожалуйста, попробуйте еще раз.'
@@ -37,7 +37,56 @@ export const authApi = {
       const response = await axios.post(`${API_URL}/verify`, data);
       return response.data;
     } catch (error) {
-      throw new Error('Ошибка верификации email');
+      if (typeof error === 'object' && error !== null && 'isAxiosError' in error) {
+        const axiosError = error as {
+          isAxiosError: boolean;
+          response?: {
+            status: number;
+            data: { message?: string };
+          };
+        };
+
+        if (axiosError.isAxiosError && axiosError.response) {
+          throw {
+            status: axiosError.response.status,
+            message: axiosError.response.data?.message || 'Ошибка верификации email. Пожалуйста, проверьте код.'
+          };
+        }
+      }
+
+      throw {
+        status: 500,
+        message: 'Произошла неожиданная ошибка при верификации email.'
+      };
+    }
+  },
+
+  resendCode: async (email: string) => {
+    try {
+      const response = await axios.post(`${API_URL}/resend-code`, { email });
+      return response.data;
+    } catch (error) {
+      if (typeof error === 'object' && error !== null && 'isAxiosError' in error) {
+        const axiosError = error as {
+          isAxiosError: boolean;
+          response?: {
+            status: number;
+            data: { message?: string };
+          };
+        };
+
+        if (axiosError.isAxiosError && axiosError.response) {
+          throw {
+            status: axiosError.response.status,
+            message: axiosError.response.data?.message || 'Ошибка при отправке кода. Пожалуйста, попробуйте еще раз.'
+          };
+        }
+      }
+
+      throw {
+        status: 500,
+        message: 'Произошла неожиданная ошибка при отправке кода.'
+      };
     }
   }
 };

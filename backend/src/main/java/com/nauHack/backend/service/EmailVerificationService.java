@@ -26,24 +26,17 @@ public class EmailVerificationService {
     private final JavaMailSender mailSender;
     private final UserRepository userRepository;
 
-    @Value("${spring.mail.username}") 
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
     @Value("${app.verification.code.expiry-minutes}")
     private int codeExpiryMinutes;
 
     public void sendVerificationCode(String email) {
-        System.out.println("Attempting to send verification code to: {}" + email);
-        if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email format");
-        }
-
-        if (!userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email is already not in use");
-        }
+        System.out.println("Attempting to send verification code to: " + email);
 
         String code = generateRandomCode();
-        
+
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setEmail(email);
         verificationCode.setCode(code);
@@ -51,16 +44,17 @@ public class EmailVerificationService {
         codeRepository.save(verificationCode);
 
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-            
-            helper.setFrom(fromEmail);
-            helper.setTo(email);
-            helper.setSubject("Код подтверждения");
-            helper.setText("Ваш код подтверждения: " + code);
-            
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("GamesBuilding@yandex.ru");
+            message.setTo(email);
+            message.setSubject("Код подтверждения");
+            message.setText("Ваш код подтверждения: " + code);
+
             mailSender.send(message);
-        } catch (MessagingException e) {
+            System.out.println("Email sent successfully to: " + email);
+        } catch (Exception e) {
+            System.err.println("Failed to send email to: " + email);
+            e.printStackTrace();
             throw new RuntimeException("Failed to send verification email", e);
         }
     }
@@ -71,21 +65,21 @@ public class EmailVerificationService {
         }
 
         Optional<VerificationCode> verificationCode = codeRepository
-            .findByEmailAndCodeAndUsedFalse(email, code);
-            
+                .findByEmailAndCodeAndUsedFalse(email, code);
+
         if (verificationCode.isEmpty()) {
             return false;
         }
-        
+
         VerificationCode vCode = verificationCode.get();
-        
+
         if (vCode.getExpiryDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Verification code has expired");
         }
-        
+
         vCode.setUsed(true);
         codeRepository.save(vCode);
-        
+
         return true;
     }
 
