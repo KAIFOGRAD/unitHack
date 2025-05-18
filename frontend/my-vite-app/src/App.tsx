@@ -9,6 +9,7 @@ import PasswordSucces from './styles/components/Registration/PasswordSucces/Pass
 import AppFooter from './styles/components/AppFooter/AppFooter';
 import HomePage from './styles/components/HomePage/HomePage';
 import Chat from './styles/components/Chat/Chat';
+import CreateEventForm from './styles/components/Admin/CreateEventForm/CreateEventForm';
 
 import styles from './App.module.scss'
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path='/password-succes' element={<PasswordSucces />} />
         <Route path='/home' element={<HomePage />} />
         <Route path='/chat' element={<Chat />} />
+        <Route path='/admin-create-event' element={<CreateEventForm />} />
       </Routes>
       </div>
       {showFooter && <AppFooter />}
