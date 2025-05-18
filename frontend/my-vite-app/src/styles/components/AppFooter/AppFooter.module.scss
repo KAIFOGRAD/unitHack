@@ -1,0 +1,47 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 375px;
+    height: 75px;
+    background: #fff;
+    z-index: 100;
+}
+
+.buttons {
+    display: flex;
+    height: 100%;
+    justify-content: space-around;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 8px 0;
+
+    &.active {
+        color: #FF6721;
+        
+        .icon {
+            filter: brightness(0) saturate(100%) invert(48%) sepia(96%) saturate(1233%) hue-rotate(344deg) brightness(101%) contrast(101%);
+            transform: translateY(-3px);
+        }
+    }
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    transition: all 0.3s ease;
+    filter: brightness(0) saturate(100%) invert(60%) sepia(0%) saturate(7485%) hue-rotate(100deg) brightness(93%) contrast(89%);
+}
