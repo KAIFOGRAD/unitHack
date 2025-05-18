@@ -25,6 +25,8 @@ import com.nauHack.backend.service.UserDetailsServiceImpl;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
+    
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
